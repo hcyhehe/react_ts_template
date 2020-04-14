@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import './home.less';
+import './index.less';
 
 export default class Home extends Component {
   render(){
     return(
-      <div className="home">11111111</div>
+      <div className="home">
+        home
+      </div>
     );
   }
 }
