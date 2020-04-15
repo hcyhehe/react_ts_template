@@ -5,18 +5,21 @@ import store from '../../store';
 import './index.less';
 
 export default class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = store.getState(); 
+  constructor(){
+    super();
+    this.state = store.getState();
   }
   
   /**
    * 传入被拖拽任务项的 id
    */
   onDragStart = (id) => {
-    this.setState({
-      activeId: id
-    });
+    console.log('onDragStart', id);
+    const action = {
+      type: 'change_activeId',
+      value: id
+    };
+    store.dispatch(action);
   }
   
   dragTo = (status) => {
@@ -66,6 +69,13 @@ export default class App extends Component {
         }
       </div>
     )
+  }
+
+  componentDidMount(){
+    store.subscribe(() => {
+      console.log('drag component trigger subscribe');
+      this.setState(store.getState());
+    });
   }
 }
 

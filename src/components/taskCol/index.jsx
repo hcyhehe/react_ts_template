@@ -3,33 +3,42 @@ import store from '../../store';
 
 export default class TaskCol extends Component {
   constructor(props){
-    super(props)
-    this.state = store.getState()
+    super(props);
+    this.state = store.getState();
   }
   
   handleDragEnter = (e) => {
     e.preventDefault();
     if (this.props.canDragIn) {
-      this.setState({
-        in: true
-      })
+      const action = {
+        type: 'change_in',
+        value: true
+      };
+      store.dispatch(action);
     }
   }
+
   handleDragLeave = (e) => {
     e.preventDefault();
     if (this.props.canDragIn) {
-      this.setState({
-        in: false
-      })
+      const action = {
+        type: 'change_in',
+        value: false
+      };
+      store.dispatch(action);
     }
   }
+
   handleDrop = (e) => {
     e.preventDefault();
     this.props.dragTo(this.props.status);
-    this.setState({
-      in: false
-    })
+    const action = {
+      type: 'change_in',
+      value: false
+    };
+    store.dispatch(action);
   }
+
   render() {
     const { STATUS_CODE } = this.state;
     const { status, children } = this.props;
@@ -50,5 +59,12 @@ export default class TaskCol extends Component {
         </main>
       </div>
     );
+  }
+
+  componentDidMount(){
+    store.subscribe(() => {
+      console.log('taskCol component trigger subscribe');
+      this.setState(store.getState());
+    });
   }
 }

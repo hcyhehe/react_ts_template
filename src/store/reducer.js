@@ -64,10 +64,19 @@ const defaultState = {
 }
 
 export default (state = defaultState, action) => {
-  if(action.type === ''){
+  if(action.type === 'change_activeId'){
+    console.log('change_activeId', action.value);
     const newState = JSON.parse(JSON.stringify(state));
-    //...
+    newState.activeId = action.value;
     return newState;
   }
+
+  if(action.type === 'change_in'){
+    console.log('change_in', action.value);
+    const newState = JSON.parse(JSON.stringify(state));
+    newState.in = action.value;
+    return newState;
+  }
+
   return state;
 }
