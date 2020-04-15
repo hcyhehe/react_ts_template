@@ -1,87 +1,36 @@
-const STATUS_TODO = 'STATUS_TODO';
-const STATUS_DOING = 'STATUS_DOING';
-const STATUS_DONE = 'STATUS_DONE';
-
 const defaultState = {
-  STATUS_TODO: STATUS_TODO,
-  STATUS_DOING: STATUS_DOING,
-  STATUS_DONE: STATUS_DONE,
-
-  activeId: null,
-
-  tasks: [
-    {
-      id: 0,
-      status: STATUS_TODO,
-      title: '每周七天阅读五次，每次阅读完要做100字的读书笔记',
-      username: '小夏',
-      point: 10
-    }, 
-    {
-      id: 1,
-      status: STATUS_TODO,
-      title: '每周七天健身4次，每次健身时间需要大于20分钟',
-      username: '橘子🍊',
-      point: 5
-    }, 
-    {
-      id: 2,
-      status: STATUS_TODO,
-      title: '单词*100',
-      username: '┑(￣Д ￣)┍',
-      point: 2
-    }, 
-    {
-      id: 3,
-      status: STATUS_TODO,
-      title: '单词*150',
-      username: '┑(￣Д ￣)┍',
-      point: 2
-    }, 
-    {
-      id: 4,
-      status: STATUS_TODO,
-      title: '单词*200',
-      username: '┑(￣Д ￣)┍',
-      point: 2
-    }, 
-    {
-      id: 5,
-      status: STATUS_TODO,
-      title: '单词*250',
-      username: '┑(￣Д ￣)┍',
-      point: 2
-    }
+  itemList: [
+    {id:'1', title:'aa', content:'aaaa'},
+    {id:'2', title:'bb', content:'bbbb'},
+    {id:'3', title:'cc', content:'cccc'},
   ],
+  flowList: [
 
-  STATUS_CODE: {
-    STATUS_TODO: '待处理',
-    STATUS_DOING: '进行中',
-    STATUS_DONE: '已完成'
-  },
-
-  in: false,  //taskCol in
+  ],
+  activeId: null,
 }
 
 export default (state = defaultState, action) => {
   if(action.type === 'change_activeId'){
-    console.log('change_activeId', action.value);
     const newState = JSON.parse(JSON.stringify(state));
     newState.activeId = action.value;
     return newState;
   }
 
-  if(action.type === 'change_in'){
-    console.log('change_in', action.value);
+  if(action.type === 'put_into_flow'){
     const newState = JSON.parse(JSON.stringify(state));
-    newState.in = action.value;
-    return newState;
-  }
-
-  if(action.type === 'change_tasks'){
-    console.log('change_tasks', action.value);
-    const newState = JSON.parse(JSON.stringify(state));
-    newState.tasks = action.value;
+    let item;
+    for(let i=0;i<newState.itemList.length;i++){
+      if(newState.itemList[i].id == newState.activeId){
+        item = newState.itemList[i];
+        newState.itemList.splice(i, 1);
+        break;
+      }
+    }
+    if(item){
+      newState.flowList.push(item);
+    }
+    console.log('newState:', newState);
     return newState;
   }
 

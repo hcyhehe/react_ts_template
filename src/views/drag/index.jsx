@@ -1,85 +1,54 @@
 import React, { Component } from 'react';
-import TaskCol from '../../components/taskCol/index';
-import TaskItem from '../../components/taskItem/index';
+import DragList from '../../components/dragList/index'
+import Form from '../../components/form/index'
 import store from '../../store';
-import './index.less';
+import './index.less'
 
-export default class App extends Component {
+export default class Drag extends Component {
   constructor(){
     super();
     this.state = store.getState();
   }
-  
-  /**
-   * 传入被拖拽任务项的 id
-   */
-  onDragStart = (id) => {
-    console.log('onDragStart', id);
-    const action = {
-      type: 'change_activeId',
-      value: id
-    };
-    store.dispatch(action);
-  }
-  
-  dragTo = (status) => {
-    const { tasks,  activeId } = this.state;
-    const task = tasks[activeId];
-    if (task.status !== status) {
-      task.status = status;
+
+  handleDragEnter (e){
+    e.persist();
+    console.log('handleDragEnter', e.target.className);
+    if(e.target.className == 'panel'){
       const action = {
-        type: 'change_tasks',
-        value: tasks
+        type: 'put_into_flow'
       };
       store.dispatch(action);
     }
-    this.cancelSelect();
   }
-  
-  cancelSelect = () => {
-    const action = {
-      type: 'change_activeId',
-      value: null
-    };
-    store.dispatch(action);
-  }
-  
-  render() {
-    const { tasks, activeId, STATUS_CODE } = this.state;
-    const { onDragStart, onDragEnd, cancelSelect } = this;
-    return (
-      <div className="task-wrapper">
-        {
-          Object.keys(STATUS_CODE).map(status => 
-            <TaskCol 
-              status={status} 
-              key={status} 
-              dragTo={this.dragTo}
-              canDragIn={activeId !== null && tasks[activeId].status !== status}>
-              { tasks.filter(t => t.status === status).map(t => 
-                <TaskItem
-                  key={t.id}
-                  active={t.id === activeId}
-                  id={t.id}
-                  title={t.title} 
-                  point={t.point} 
-                  username={t.username}
-                  onDragStart={onDragStart}
-                  onDragEnd={cancelSelect}
-                />)
-              }
-            </TaskCol>
-          )
-        }
+
+  render(){
+    return(
+      <div className="drag">
+        <DragList />
+        <div 
+          className="panel" 
+          onDragEnter={e => this.handleDragEnter(e)}
+        >
+          {this.state.flowList.map((item, index) =>{
+            return(
+              <div 
+                className="panelItem" 
+                key={'panelItem-'+index}
+              >
+                <div className="title">this is title {item.title}</div>
+                <div className="content">this is content {item.content}</div>
+              </div>
+            )
+          })}
+        </div>
+        <Form />
       </div>
-    )
+    );
   }
 
   componentDidMount(){
     store.subscribe(() => {
-      console.log('drag component trigger subscribe');
       this.setState(store.getState());
     });
   }
 }
-
