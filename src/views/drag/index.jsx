@@ -23,12 +23,12 @@ export default class App extends Component {
   }
   
   dragTo = (status) => {
-    const { tasks,  activeId} = this.state;
+    const { tasks,  activeId } = this.state;
     const task = tasks[activeId];
     if (task.status !== status) {
       task.status = status;
       const action = {
-        type: 'change_task',
+        type: 'change_tasks',
         value: tasks
       };
       store.dispatch(action);
