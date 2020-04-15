@@ -78,5 +78,12 @@ export default (state = defaultState, action) => {
     return newState;
   }
 
+  if(action.type === 'change_tasks'){
+    console.log('change_tasks', action.value);
+    const newState = JSON.parse(JSON.stringify(state));
+    newState.tasks = action.value;
+    return newState;
+  }
+
   return state;
 }

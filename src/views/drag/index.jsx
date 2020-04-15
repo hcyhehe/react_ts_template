@@ -27,17 +27,21 @@ export default class App extends Component {
     const task = tasks[activeId];
     if (task.status !== status) {
       task.status = status;
-      this.setState({
-        tasks: tasks
-      });
+      const action = {
+        type: 'change_task',
+        value: tasks
+      };
+      store.dispatch(action);
     }
     this.cancelSelect();
   }
   
   cancelSelect = () => {
-    this.setState({
-      activeId: null
-    });
+    const action = {
+      type: 'change_activeId',
+      value: null
+    };
+    store.dispatch(action);
   }
   
   render() {
