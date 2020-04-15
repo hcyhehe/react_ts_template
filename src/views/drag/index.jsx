@@ -15,7 +15,7 @@ export default class Drag extends Component {
     console.log('handleDragEnter', e.target.className);
     if(e.target.className == 'panel'){
       const action = {
-        type: 'put_into_flow'
+        type: 'show_position'
       };
       store.dispatch(action);
     }
