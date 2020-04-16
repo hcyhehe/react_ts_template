@@ -3,7 +3,7 @@ import DragList from '../../components/dragList/index';
 import store from '../../store';
 import './index.less';
 
-export default class Drag extends Component {
+export default class protoDrag extends Component {
   constructor(){
     super();
     this.state = store.getState();
@@ -11,7 +11,9 @@ export default class Drag extends Component {
 
   handlePanelEnter(e){
     console.log('handlePanelEnter', e.target.className);
-    if(this.state.activeId && this.state.activeItem && e.target.className == 'panel'){
+    if(this.state.activeId && this.state.activeItem && e.target.className == 'panel'
+      //(e.target.className == 'panel' || e.target.className.match('comClass'))
+    ){
       const action = {
         type: 'show_position'
       };
@@ -51,12 +53,12 @@ export default class Drag extends Component {
           {this.state.flowList.map((item, index) =>{
             return(
               <div 
-                className={item.dashed ? "panelItem canDrag" : "panelItem"} 
+                className={item.dashed ? "panelItem canDrag comClass" : "panelItem comClass"} 
                 key={'panelItem-'+index}
                 onDragEnter={e => this.handleDragEnter(e)}
               >
-                <div className="title">this is title {item.title}</div>
-                <div className="content">this is content {item.content}</div>
+                <div className="title comClass">this is title {item.title}</div>
+                <div className="content comClass">this is content {item.content}</div>
               </div>
             )
           })}
