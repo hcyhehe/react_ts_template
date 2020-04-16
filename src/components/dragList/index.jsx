@@ -9,20 +9,14 @@ export default class DragList extends Component {
     this.state = store.getState();
   }
 
-  handleStart (e, id){
-    //e.preventDefault();
-    console.log('handleStart', id);
+  handleStart (e, item){
+    console.log('handleStart', item);
     const action = {
-      type: 'change_activeId',
-      value: id
+      type: 'change_active',
+      value: item
     };
     store.dispatch(action);
-  }
-
-  handleEnd (e, id){
-    //e.preventDefault();
-    console.log('handleEnd', id);
-  }
+  };
 
   render(){
     return(
@@ -33,8 +27,7 @@ export default class DragList extends Component {
               className="dragItem" 
               key={'drag-'+index}
               draggable="true"
-              onDragStart={e => this.handleStart(e, item.id)}
-              onDragEnd={e => this.handleEnd(e, item.id)}
+              onDragStart={e=>this.handleStart(e, item)}
             >
               <div className="title">this is title {item.title}</div>
               <div className="content">this is content {item.content}</div>

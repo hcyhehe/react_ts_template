@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import DragList from '../../components/dragList/index'
-import Form from '../../components/form/index'
+import DragList from '../../components/dragList/index';
 import store from '../../store';
-import './index.less'
+import './index.less';
 
 export default class Drag extends Component {
   constructor(){
@@ -10,30 +9,51 @@ export default class Drag extends Component {
     this.state = store.getState();
   }
 
-  handleDragEnter (e){
-    e.persist();
-    console.log('handleDragEnter', e.target.className);
-    if(e.target.className == 'panel'){
+  handlePanelEnter(e){
+    console.log('handlePanelEnter', e.target.className);
+    if(this.state.activeId && this.state.activeItem && e.target.className == 'panel'){
       const action = {
         type: 'show_position'
       };
       store.dispatch(action);
     }
-  }
+  };
+
+  handlePanelLeave (e){
+    console.log('handlePanelLeave', e.target.className);
+    if(e.target.className == 'panel'){
+      const action = {
+        type: 'remove_position'
+      };
+      store.dispatch(action);
+    }
+  };
+
+  handleDragEnter(e){
+    console.log('handleDragEnter', e.target.className);
+    if(e.target.className.match('canDrag')){
+      const action = {
+        type: 'add_flow'
+      };
+      store.dispatch(action);
+    }
+  };
 
   render(){
     return(
       <div className="drag">
         <DragList />
-        <div 
+        <div
           className="panel" 
-          onDragEnter={e => this.handleDragEnter(e)}
+          onDragEnter={e => this.handlePanelEnter(e)}
+          onDragLeave={e => this.handlePanelLeave(e)}
         >
           {this.state.flowList.map((item, index) =>{
             return(
               <div 
-                className="panelItem" 
+                className={item.dashed ? "panelItem canDrag" : "panelItem"} 
                 key={'panelItem-'+index}
+                onDragEnter={e => this.handleDragEnter(e)}
               >
                 <div className="title">this is title {item.title}</div>
                 <div className="content">this is content {item.content}</div>
@@ -41,7 +61,6 @@ export default class Drag extends Component {
             )
           })}
         </div>
-        <Form />
       </div>
     );
   }
