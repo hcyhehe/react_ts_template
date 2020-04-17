@@ -9,33 +9,23 @@ export default class protoDrag extends Component {
     this.state = store.getState();
   }
 
-  handlePanelEnter(e){
-    console.log('handlePanelEnter', e.target.className);
-    if(this.state.activeId && this.state.activeItem && e.target.className == 'panel'
-      //(e.target.className == 'panel' || e.target.className.match('comClass'))
-    ){
-      const action = {
-        type: 'show_position'
-      };
-      store.dispatch(action);
-    }
+  handleBodyOver(e){
+    e.preventDefault();
+    console.log('handleBodyOver');
   };
 
-  handlePanelLeave (e){
-    console.log('handlePanelLeave', e.target.className);
-    if(e.target.className == 'panel'){
-      const action = {
-        type: 'remove_position'
-      };
-      store.dispatch(action);
-    }
-  };
-
-  handleDragEnter(e){
-    console.log('handleDragEnter', e.target.className);
+  handleBodyDrop(e){
+    e.preventDefault();
+    e.persist();
+    console.log('handleBodyDrop', e.target.className);
     if(e.target.className.match('canDrag')){
       const action = {
         type: 'add_flow'
+      };
+      store.dispatch(action);
+    } else {
+      const action = {
+        type: 'remove_active'
       };
       store.dispatch(action);
     }
@@ -43,22 +33,27 @@ export default class protoDrag extends Component {
 
   render(){
     return(
-      <div className="drag">
+      <div 
+        className="drag"
+        onDragOver={e => this.handleBodyOver(e)}
+        onDrop={e => this.handleBodyDrop(e)}
+      >
         <DragList />
         <div
           className="panel" 
-          onDragEnter={e => this.handlePanelEnter(e)}
-          onDragLeave={e => this.handlePanelLeave(e)}
         >
           {this.state.flowList.map((item, index) =>{
             return(
               <div 
-                className={item.dashed ? "panelItem canDrag comClass" : "panelItem comClass"} 
+                className={item.dashed ? "panelItem canDrag" : "panelItem"} 
                 key={'panelItem-'+index}
-                onDragEnter={e => this.handleDragEnter(e)}
               >
-                <div className="title comClass">this is title {item.title}</div>
-                <div className="content comClass">this is content {item.content}</div>
+                <div className={item.dashed ? "title canDragTitle": "title"}>
+                  this is title {item.title}
+                </div>
+                <div className={item.dashed ? "content canDragContent": "content"}>
+                  this is content {item.content}
+                </div>
               </div>
             )
           })}

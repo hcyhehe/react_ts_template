@@ -24,20 +24,14 @@ export default (state = defaultState, action) => {
     const newState = JSON.parse(JSON.stringify(state));
     newState.activeId = action.value.id;
     newState.activeItem = action.value;
-    return newState;
-  }
 
-  if(action.type === 'show_position'){
-    const newState = JSON.parse(JSON.stringify(state));
-    if(!newState.activeItem){
-      console.log('newState.activeItem:', newState);
-    }
     newState.activeItem.dashed = true;
     newState.flowList.push(newState.activeItem);
+
     return newState;
   }
 
-  if(action.type === 'remove_position'){
+  if(action.type === 'remove_active'){
     const newState = JSON.parse(JSON.stringify(state));
     for(let i=0;i<newState.flowList.length;i++){
       if(newState.flowList[i].id === newState.activeId){
@@ -45,6 +39,8 @@ export default (state = defaultState, action) => {
         break;
       }
     }
+    newState.activeId = null;
+    newState.activeItem = null;
     return newState;
   }
 
