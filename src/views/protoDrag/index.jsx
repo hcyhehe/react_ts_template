@@ -39,8 +39,8 @@ export default class protoDrag extends Component {
 
   render(){
     return(
-      <div 
-        className="drag"
+      <div
+        className="drag light"
         onDragOver={e => this.handleBodyOver(e)}
         onDrop={e => this.handleBodyDrop(e)}
       >

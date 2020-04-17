@@ -24,13 +24,21 @@ export default class DragList extends Component {
         {this.state.itemList.map((item, index) =>{
           return(
             <div 
-              className="dragItem" 
-              key={'drag-'+index}
+              className="card draggable"
               draggable="true"
+              key={'drag-'+index}
               onDragStart={e=>this.handleStart(e, item)}
             >
-              <div className="title">this is title {item.title}</div>
-              <div className="content">this is content {item.content}</div>
+              <div className="header">
+                <div className="left">
+                  <div className="title">Drag this card {item.title}</div>
+                  <div className="subtitle"></div>
+                </div>
+                <div className="right"></div>
+              </div>
+              <div className="content">
+                <p>Short description on this item {item.content}</p>
+              </div>
             </div>
           )
         })}
