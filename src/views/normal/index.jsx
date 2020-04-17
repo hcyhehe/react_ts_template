@@ -1,10 +1,11 @@
-import React, {Component} from 'react'
-import Header from '../../components/header/index'
-import Bar from '../../components/bar/index'
+import React, {Component} from 'react';
+import Header from '../../components/header/index';
+import Bar from '../../components/bar/index';
+import './index.less';
 
 class Normal extends Component {
-  render() {
-    return (
+  render(){
+    return(
       <div className="light">
         <Header />
         <main>
@@ -14,8 +15,16 @@ class Normal extends Component {
               <div className="appcontent">
                 <div className="row row-panel">
                   <div className="tile sm-12">
-                    <div className="content">
-                      
+                    <div className="content drag-panel">
+                      <div className="left-panel">
+                        
+                      </div>
+                      <div className="center-panel">
+                        <i className="icon icon-sidemenu-left-close"></i>
+                      </div>
+                      <div className="right-panel">
+
+                      </div>
                     </div>
                   </div>
                 </div>
