@@ -17,7 +17,13 @@ class Normal extends Component {
                   <div className="tile sm-12">
                     <div className="content drag-panel">
                       <div className="left-panel">
-                        
+                        <div className="header">
+                          <div className="title">Functions</div>
+                          <i className="icon icon-cross"></i>
+                        </div>
+                        <div className="list">
+
+                        </div>
                       </div>
                       <div className="center-panel">
                         <i className="icon icon-sidemenu-left-close"></i>
