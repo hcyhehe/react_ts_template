@@ -31,6 +31,12 @@ export default class protoDrag extends Component {
     }
   };
 
+  handleMouseOut(e){
+    e.stopPropagation();
+    e.persist();
+    console.log('handleMouseOut', e);
+  };
+
   render(){
     return(
       <div 
