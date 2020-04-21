@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
-    "@ses/eds-ui": "^0.1.0",
+    "@rjsf/core": "^2.0.0-alpha.6",
+    "@ses/eds-ui": "^0.2.2",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -58,6 +59,7 @@
     "react-dev-utils": "^10.2.1",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.3.1",
+    "react-jsonschema-form": "^1.8.1",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "resolve": "1.15.0",
@@ -150,6 +152,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.9.0"
+    "@babel/compat-data": "^7.9.0",
+    "@rjsf/material-ui": "^2.0.0-alpha.6"
   }
 }
