@@ -2,46 +2,41 @@ import React, { Component } from 'react';
 import Form from "react-jsonschema-form";
 import { Input, Radio } from "@ses/eds-ui";
 
-const InputIntWidget = (props) => {
-  const { value } = props;
+const InputWidget = (props) => {
+  console.log(props);
+  const { required, value, placeholder, schema, onChange } = props;
+  let type;
+  if(schema.type=='string' && !schema.enum) type = 'text';
+  if((schema.type=='number' || schema.type=='integer') && !schema.enum) type = 'number';
   return (
     <Input 
-      type="number"
-      placeholder="placeholder"
+      type={type}
+      placeholder={placeholder}
       defaultValue={value}
+      required={required}
+      onChange={(value) => onChange(value)}
     />
   );
 };
 
-const InputTextWidget = (props) => {
-  const { value } = props;
-  return (
-    <Input 
-      type="text"
-      placeholder="placeholder"
-      defaultValue={value}
-    />
-  );
-};
-
-const radioItems = [
-  {id:'1', label:'Male', value:1},
-  {id:'2', label:'Female', value:2}
-];
 const RadioWidget = (props) => {
-  const { value } = props;
+  const { value, schema, onChange } = props;
+  const items = [];
+  schema.enum.map((item) => {
+    items.push({label:item, value:item});
+  });
   return (
     <Radio 
       name="RadioGroup"
-      items={radioItems}
+      items={items}
       defaultValue={value}
+      onChange={(value) => onChange(value)}
     />
   );
 };
 
 const widgets = {
-  inputTextWidget: InputTextWidget,
-  inputIntWidget: InputIntWidget,
+  inputWidget: InputWidget,
   radioWidget: RadioWidget
 };
 
@@ -63,7 +58,8 @@ const schema = {
       "title": "Age"
     },
     "gender": {
-      "type": "boolean",
+      "type": "number",
+      "enum": [1,2],
       "title": "Gender"
     }
   }
@@ -71,28 +67,31 @@ const schema = {
 
 const uiSchema = {
   "name": {
-    "ui:widget": "inputTextWidget",
+    "ui:widget": "inputWidget",
     "ui:autofocus": true,
     "ui:emptyValue": "",
     "ui:help": "Hint: Make it strong!"
   },
   "age": {
-    "ui:widget": "inputIntWidget",
+    "ui:widget": "inputWidget",
     "ui:title": "Age of person",
     "ui:description": "(earthian year)"
   },
   "gender": {
-    "ui:widget": "radioWidget",
+    "ui:widget": "radioWidget"
   }
 };
 
-const formData = {
-  "name": "William",
-  "age": 45,
-  "gender": 1
-};
+const formData = {};  //use to edit
+
+
+const log = (type) => console.log.bind(console, type);
 
 export default class FormTest extends Component {
+  constructor(props){
+    super();
+    console.log('111111', props);
+  }
   render(){
     return(
       <div className="formTest light">
@@ -101,6 +100,9 @@ export default class FormTest extends Component {
           uiSchema={uiSchema}
           formData={formData}
           widgets={widgets}
+          onChange={log("changed")}
+          onSubmit={log("submitted")}
+          onError={log("errors")}
         />
       </div>
     );
