@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form";
 import { Input, Select, Radio } from "@ses/eds-ui";
+import { v1 as uuidV1 } from 'uuid';
 
 const InputWidget = (props) => {
   //console.log(props);
   const { required, value, placeholder, schema, onChange } = props;
   let type;
-  if(schema.type=='string' && !schema.enum) type = 'text';
-  if((schema.type=='number' || schema.type=='integer') && !schema.enum) type = 'number';
+  if(schema.type==='string' && !schema.enum) type = 'text';
+  if((schema.type==='number' || schema.type==='integer') && !schema.enum) type = 'number';
   return (
     <Input 
       type={type}
@@ -15,7 +16,6 @@ const InputWidget = (props) => {
       defaultValue={value}
       required={required}
       onChange={(value) => {
-        console.log(typeof(value));
         onChange(value)
       }}
     />
@@ -23,16 +23,22 @@ const InputWidget = (props) => {
 };
 
 const SelectWidget = (props) => {
+  console.log('222', props);
   const { value, schema, onChange } = props;
+  //const key = `sl-${uuidV1()}`;
   const getOptionList = () => {
-    return schema.enum.map((item,index) => (
-      <Select.Option key={'sl-'+index} title={item} value={item}></Select.Option>
+    return schema.enum.map((item, index) => (
+      <Select.Option key={`sl-option-${index}`} title={item} value={item}></Select.Option>
     ));
   }
   return (
     <Select 
+      type="single"
       defaultValue={value}
-      onChange={(value) => onChange(value)}
+      onChange={(value) => {
+        console.log('Select', value);
+        onChange(value[0]);
+      }}
     >
       {getOptionList()}
     </Select>
@@ -50,7 +56,10 @@ const RadioWidget = (props) => {
       name="RadioGroup"
       items={items}
       defaultValue={value}
-      onChange={(value) => onChange(value)}
+      onChange={(value) => {
+        console.log('radio', value);
+        onChange(value);
+      }}
     />
   );
 };
@@ -73,9 +82,9 @@ export default class JsonSchemaForm extends Component {
     for(let i in properties){
       if(
           (
-            properties[i].type == "string" || 
-            properties[i].type == "number" || 
-            properties[i].type == "integer"
+            properties[i].type === "string" || 
+            properties[i].type === "number" || 
+            properties[i].type === "integer"
           ) && !properties[i].enum
         ){
         uiSchema[i] = {"ui:widget":"inputWidget"};
@@ -83,7 +92,7 @@ export default class JsonSchemaForm extends Component {
       if(properties[i].enum){
         uiSchema[i] = {"ui:widget":"selectWidget"};
       }
-      if(properties[i].type == "boolean"){
+      if(properties[i].type === "boolean"){
         uiSchema[i] = {"ui:widget":"radioWidget"};
       }
     }

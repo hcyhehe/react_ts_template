@@ -153,6 +153,7 @@
   },
   "devDependencies": {
     "@babel/compat-data": "^7.9.0",
-    "@rjsf/material-ui": "^2.0.0-alpha.6"
+    "@rjsf/material-ui": "^2.0.0-alpha.6",
+    "uuid": "^7.0.3"
   }
 }
