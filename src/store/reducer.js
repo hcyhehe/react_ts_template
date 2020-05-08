@@ -1,19 +1,19 @@
 const defaultState = {
   allList: [
-    {id:1, title:'aa', content:'aaaa'},
-    {id:2, title:'bb', content:'bbbb'},
-    {id:3, title:'cc', content:'cccc'},
-    {id:4, title:'dd', content:'dddd'},
-    {id:5, title:'ee', content:'eeee'}
+    {id:1, title:'aa', content:'aaaa', dashed:false},
+    {id:2, title:'bb', content:'bbbb', dashed:false},
+    {id:3, title:'cc', content:'cccc', dashed:false},
+    {id:4, title:'dd', content:'dddd', dashed:false},
+    {id:5, title:'ee', content:'eeee', dashed:false}
   ],
   itemList: [
-    {id:2, title:'bb', content:'bbbb'},
-    {id:3, title:'cc', content:'cccc'},
-    {id:4, title:'dd', content:'dddd'},
+    {id:2, title:'bb', content:'bbbb', dashed:false},
+    {id:3, title:'cc', content:'cccc', dashed:false},
+    {id:4, title:'dd', content:'dddd', dashed:false},
   ],
   flowList: [
-    {id:1, title:'aa', content:'aaaa'},
-    {id:5, title:'ee', content:'eeee'},
+    {id:1, title:'aa', content:'aaaa', dashed:false},
+    {id:5, title:'ee', content:'eeee', dashed:false},
   ],
   activeItem: null,
 }
